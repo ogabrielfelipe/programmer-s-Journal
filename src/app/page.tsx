@@ -1,91 +1,77 @@
-import Image from 'next/image'
+'use client';
 import { Inter } from '@next/font/google'
-import styles from './page.module.css'
-
+import styles from './page.module.scss'
+import { InputLogin } from '../components/input'
+import { Eye, EyeClosed, Keyhole, UserCircle } from "phosphor-react";
+import { FormEvent, useState } from 'react';
+import { ButtonPrimary } from '@/components/button';
+ 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+
+  const [iconEye, setIconEye] = useState<boolean>(false)
+
+  function handleVisiblePassword(){
+    let iptPassword = document.getElementById("passwordLogin")
+
+    if(iptPassword?.getAttribute('type') == 'password') {
+      iptPassword.setAttribute('type', 'text');
+      setIconEye(true)
+    } else {
+      iptPassword?.setAttribute('type', 'password');
+      setIconEye(false)
+    }
+
+  }
+
+  function handleLogin(e: FormEvent){
+    e.preventDefault();
+  }
+
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+
+      <div className={styles.containerLogo}>
+        <h1>logo</h1>
+      </div>
+
+      <form className={styles.containerLogin} onSubmit={handleLogin}>
+        <strong className={styles.titleLogin}>Login</strong>
+        
+        <div className={styles.contentInput}>
+          <UserCircle size={32} weight="light" style={{ "marginTop": "1.5rem" }} />
+          <InputLogin 
+            title={" Usuário"}
+            placeholder='Nome de Usuário'
+            id='username'
+            type={"text"}
+          />
         </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
+        <div className={styles.contentInput}>
+          <Keyhole size={40} weight="light" style={{ "marginTop": "1.5rem" }} />
+          <InputLogin 
+            title={"Senha"}
+            placeholder='Digite sua senha'
+            id='passwordLogin'
+            type={"password"}
+          />
+          {!iconEye ? (
+            <Eye size={32} weight="light" onClick={handleVisiblePassword}  style={{ "marginTop": "1.5rem", cursor: "pointer" }} />
+          ) : (
+            <EyeClosed size={32} weight="light" onClick={handleVisiblePassword}  style={{ "marginTop": "1.5rem", cursor: "pointer" }}  />
+          )}
         </div>
-      </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+        <ButtonPrimary style={{marginTop: "2.5rem"}} type={"submit"}>
+          Entrar
+        </ButtonPrimary>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+        <span className={styles.forwardPass}>Esqueceu sua senha? <a href="#" className={styles.forwardPass__a}>Clique aqui!</a></span>
+        
+      </form>
     </main>
   )
 }
