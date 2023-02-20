@@ -19,11 +19,11 @@
 
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
-    color: #FFFFFF;
+    color: rgb(var(--cl-white));
 
-    background: rgb(4,4,4);
-    background: linear-gradient(-141deg, rgba(34,32,37,0.3) 0%, rgba(4,4,4,0.5) 40%, rgba(4,4,4,0.5) 60%, rgba(34,32,37,0.3) 100%);
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    background: rgb( var(--cl-black) );
+    background: linear-gradient(-141deg, rgba(var(--cl-gray-900),0.3) 0%, rgba(var(--cl-black),0.5) 40%, rgba(var(--cl-black),0.5) 60%, rgba(var(--cl-gray-900),0.3) 100%);
+    box-shadow: 0 0 10px rgba(var(--cl-black),0.5);
 }
 
 .titleLogin{
@@ -53,7 +53,6 @@
     display: block;
     margin: 1.5rem;
     &__a{
-
         font-weight: 600;
         font-size: 1rem;
     }

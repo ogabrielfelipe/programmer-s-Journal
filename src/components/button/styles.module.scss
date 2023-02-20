@@ -1,10 +1,10 @@
-$color:   rgba(0,0,0,.5) ;
+
 
 .button {
     display: inline-block;
     padding: .75rem 1.25rem;
     border-radius: 10rem;
-    color: #fff;
+    color: rgb(var(--cl-white));
     text-transform: uppercase;
     font-size: 1rem;
     letter-spacing: .15rem;
@@ -22,7 +22,7 @@ $color:   rgba(0,0,0,.5) ;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: $color;
+      background-color: rgba(var(--cl-black), 0.5);
       border-radius: 10rem;
       z-index: -2;
     }
@@ -33,7 +33,7 @@ $color:   rgba(0,0,0,.5) ;
       left: 0;
       width: 0%;
       height: 100%;
-      background-color: darken($color, 15%);
+      background-color: rgba(var(--cl-black), .5);
       border-radius: 10rem;
       transition: all .3s;
       z-index: -1;

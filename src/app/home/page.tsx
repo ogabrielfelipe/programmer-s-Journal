@@ -1,6 +1,7 @@
 import RootLayout from "../layout";
 
 
+
 export default function Home(){
     return (
         <RootLayout>
@@ -8,3 +9,4 @@ export default function Home(){
         </RootLayout>
     )
 }
+

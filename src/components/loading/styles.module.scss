@@ -1,0 +1,18 @@
+.containerLoading{
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    cursor: progress;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    background-color: rgba(var(--cl-black), 0.3);    
+}
+
+.content{
+    padding: 0.2rem;
+    background-color: rgb(var(--cl-black), 1);
+    box-shadow: 0 0 10px 0 rgba(var(--cl-black), 0.5);
+    border-radius: 1rem;
+    align-self: center;
+}
