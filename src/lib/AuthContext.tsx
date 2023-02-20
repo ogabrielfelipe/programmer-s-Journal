@@ -42,16 +42,6 @@ type AuthProviderProps = {
 export const AuthContext = createContext({} as AuthContextData)
 
 
-export function signOut(){
-    const router = useRouter();
-    try{
-        destroyCookie(undefined, '@nextauth.token')
-        router.push('/')
-    }catch{
-        console.log('Sign out Error')
-    }
-}
-
 export function AuthProvider({ children }: AuthProviderProps){
     const [ user, setUser ] = useState<UserProps>()
     const isAuthenticated = !!user; // !! => Converte em boolean (se estiver vazio fica "false")
@@ -127,6 +117,15 @@ export function AuthProvider({ children }: AuthProviderProps){
         //console.log("Erro ao cadastrar ", err)
     }
    } 
+
+   async function signOut(){
+    try{
+        destroyCookie(undefined, '@nextauth.token')
+        router.push('/')
+    }catch{
+        console.log('Sign out Error')
+    }
+}
 
     return (
         <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut, singUp }}>

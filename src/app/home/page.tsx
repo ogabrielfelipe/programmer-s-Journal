@@ -1,12 +1,17 @@
+import { SideBarVertical } from "@/components/sideBar";
 import RootLayout from "../layout";
+import styles from "./styles.module.scss"
 
 
 
 export default function Home(){
     return (
-        <RootLayout>
-            <h1>Teste</h1>
-        </RootLayout>
+        <>
+            <SideBarVertical />
+            <main>
+                
+            </main>
+        </>
     )
 }
 
