@@ -6,11 +6,14 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useAuth } from "@/lib/AuthContext";
 import { toast } from "react-toastify";
+import Image from "next/image";
+import logoDaily from "../../../public/diario-do-programador-login.svg"
 
 
 function SideBarVertical(){
     const [alterIconMenu, setAlterIconMenu] = useState<boolean>(false);
     const { user, signOut } = useAuth();
+    const fullName = `${user?.firstName} ${user?.lastName}`
 
     function handleColletMenu(){
         let menu = document.querySelector(`.${styles.nav}`)
@@ -51,8 +54,10 @@ function SideBarVertical(){
                     />
                 )}
                 
-
-                <span>Diário do Programador</span>
+                <Image
+                    src={logoDaily}
+                    alt={"Logo Diário do Programador"}
+                />
                 
                 <Popup 
                     trigger={
@@ -73,9 +78,13 @@ function SideBarVertical(){
                     
                 >
                     <div>
-                        <span>{`${user?.firstName} ${user?.lastName}`}</span>
+                        {user ? (
+                            <span>{fullName}</span>
+                        ) : (
+                            <></>
+                        )}                        
                         <hr className={styles.separate}/>
-                        <div className={styles.btnExit}  onClick={() => { toast.success("Deslogado com sucesso!"); signOut(); }}>
+                        <div className={styles.btnExit}  onClick={() => {signOut();}}>
                             <SignOut size={32} weight="light" />
                             <span>Sair</span>
                         </div>

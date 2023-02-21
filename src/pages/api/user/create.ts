@@ -22,7 +22,7 @@ interface CreateUserRequest {
     email: string;
 }
 
-export default withAuth( async (req: NextApiRequest, res: NextApiResponse<Data>) =>{
+export default withAuth( async (req: NextApiRequest, res: NextApiResponse) =>{
     if (req.method !== 'POST') {
         return res.status(403).json({ message: "method not found." });
     }
@@ -40,7 +40,7 @@ export default withAuth( async (req: NextApiRequest, res: NextApiResponse<Data>)
 
         return res.status(200).json({...userCreated})
     }catch(err){
-        return res.status(500).json({message: `Error: code:${err?.code} - meta(target):${err?.meta?.target} - Datail:${err} `})
+        return res.status(500).json({message: err})
     }  
 })
 
