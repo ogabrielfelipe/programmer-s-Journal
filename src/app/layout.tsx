@@ -3,6 +3,7 @@ import { AuthProvider } from '@/lib/AuthContext'
 import { ToastContainer } from 'react-toastify'
 import './globals.css'
 import 'react-toastify/dist/ReactToastify.css';
+import { SideBarVertical } from '@/components/sideBar';
 
 export default function RootLayout({
   children,

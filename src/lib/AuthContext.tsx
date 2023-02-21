@@ -114,14 +114,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
 */
     } catch (err) {
       toast.error("Erro ao Cadastrar!");
-      //console.log("Erro ao cadastrar ", err)
+      console.log("Erro ao cadastrar ", err)
     }
   }
 
   function signOut() {
     try {
-      //destroyCookie(undefined, '@nextauth.token')
-      //toast.success("Deslogado com sucesso!")
+      destroyCookie(undefined, '@nextauth.token')
+      toast.success("Deslogado com sucesso!")
       router.push("/login");
     } catch (e) {
       console.log(`Sign out Error: ${e}`);

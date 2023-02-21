@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { toast } from "react-toastify";
 import Image from "next/image";
 import logoDaily from "../../../public/diario-do-programador-login.svg"
+import Link from "next/link";
 
 
 function SideBarVertical(){
@@ -42,22 +43,26 @@ function SideBarVertical(){
                     <List 
                         size={32} 
                         weight="light" 
-                        style={{"cursor": "pointer"}}
+                        style={{"cursor": "pointer", marginLeft: "-6.5px"}}
                         onClick={handleColletMenu}
                     />
                 ) : (
                     <X 
                         size={32} 
                         weight="light" 
-                        style={{"cursor": "pointer"}}
+                        style={{"cursor": "pointer", marginLeft: "-6.5px"}}
                         onClick={handleColletMenu}
                     />
                 )}
-                
-                <Image
-                    src={logoDaily}
-                    alt={"Logo Diário do Programador"}
-                />
+
+                <Link
+                    href={"/"}                
+                >
+                    <Image
+                        src={logoDaily}
+                        alt={"Logo Diário do Programador"}
+                    />
+                </Link>
                 
                 <Popup 
                     trigger={
@@ -73,17 +78,18 @@ function SideBarVertical(){
                         color: "#FFFFFF",
                         border: "none",
                         boxShadow: "0 0 10px 0 #000000",
+                        zIndex: "801"
                         
                     }}
                     
                 >
                     <div>
                         {user ? (
-                            <span>{fullName}</span>
+                            <span style={{margin: "1rem"}}>{fullName}</span>
                         ) : (
                             <></>
                         )}                        
-                        <hr className={styles.separate}/>
+                        <hr className={styles.separate} style={{margin: "0.5rem"}}/>
                         <div className={styles.btnExit}  onClick={() => {signOut();}}>
                             <SignOut size={32} weight="light" />
                             <span>Sair</span>
@@ -100,11 +106,12 @@ function SideBarVertical(){
                                 <HouseLine size={25} weight="light" />
                                 <a href="#" className={styles.nav__ul__li__a}> Tela Inicial </a>
                             </li>
-
+                            <hr className={styles.nav__ul__separate}/>
                             <li className={styles.nav__ul__li}>
-                                <Notepad size={32} weight="light" />
+                                <Notepad size={25} weight="light" />
                                 <a href="#" className={styles.nav__ul__li__a}> Diário </a>
                             </li>
+                            <hr className={styles.nav__ul__separate}/>
                         </>
                     ) : (
                         <></>
