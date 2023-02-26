@@ -21,7 +21,7 @@ type Data<UserRes> = {
 
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse){
-    if (req.method !== 'POST') {
+    if (req.method != "POST") {
         return res.status(403).json({ message: "method not found." });
     }
 
