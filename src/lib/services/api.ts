@@ -3,8 +3,6 @@ import { parseCookies } from 'nookies'
 import { toast } from 'react-toastify';
 import { AuthTokenError } from './errors/AuthTokenError'
 
-
-
 export function setupAPIClient( ctx = undefined ){
     let cookies = parseCookies(ctx);
 

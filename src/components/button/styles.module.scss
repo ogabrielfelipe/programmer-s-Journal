@@ -45,3 +45,51 @@
       }
     }
   }
+
+.buttonForm{
+  width: 8rem;
+  height: 3rem;
+  outline: none;
+  border: none;
+
+  background-color: rgba(var(--cl-gray-900));
+  border-radius: 0.5rem;
+  font-family: var(--font-family-default);
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(var(--cl-white));
+
+  box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+
+  cursor: pointer;
+  transition: all .1s linear;
+  &:hover{
+    filter: brightness(1.3);
+  }
+}
+
+.buttonForm2{
+  width: 8rem;
+  height: 3rem;
+  outline: none;
+  border: none;
+
+  background-color: rgba(var(--cl-gray), .5);
+  border-radius: 0.5rem;
+  font-family: var(--font-family-default);
+  font-size: 1rem;
+  font-weight: 700;
+  color: rgb(var(--cl-white));
+
+  box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 0px 8px 3px rgba(0,0,0,0.3);
+
+  cursor: pointer;
+  transition: all .1s linear;
+  &:hover{
+    background-color: rgba(var(--cl-gray), 1);
+  }
+}

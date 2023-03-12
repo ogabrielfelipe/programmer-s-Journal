@@ -1,8 +1,9 @@
 'use client';
+
 import styles from './page.module.scss'
 import { InputLogin } from '../../components/input'
 import { Eye, EyeClosed, Keyhole, UserCircle } from "phosphor-react";
-import { FormEvent, useContext, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { ButtonPrimaryLogin } from '@/components/button';
 import Image from 'next/image';
 
@@ -41,8 +42,10 @@ export default function Home() {
       emailReq: email,
       password: password
     })
+    setLoading(false);
   }
 
+  
   return (
     <main className={styles.main}>
 

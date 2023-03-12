@@ -1,11 +1,248 @@
-.main{
+.main {
     width: calc(80vw - 8rem);
     height: 100vh;
 }
-.containerCalendar{
-    width: 80vw;
+
+.containerCalendar {
+    width: 90%;
+    height: 80%;
+    background-color: rgb(var(--cl-gray-900));
+    box-shadow: 0 0 10px 0 rgb(var(--cl-black));
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-48%, -46%);
+
+    border-radius: .6rem;
+    padding: 1rem;
+
+    &__containerInput{
+        width: 100%;
+        height: 5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 1rem;
+        margin-top: 1rem;
+
+        &__input{
+            margin-bottom: .5rem;
+            width: 12rem;
+            font-size: 1rem;
+            background: transparent;
+            color: rgb(var(--cl-white));
+            border: 0;
+            border-bottom: 2px solid rgb(var(--cl-gray));
+            font-family: var(--font-family-default);
+        }
+
+        &__viewInterval{
+            color: rgb(var(--cl-white));
+            font-family: var(--font-family-default);
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: .8rem;
+            border-radius: .5rem;
+            background-color: rgb(var(--cl-gray-700));
+        }
+
+    }
+
+    &__contentDay{
+        width: 100%;
+        height: calc(100% - 6rem);
+        border-radius: 0 0 .6rem .6rem;
+        padding: .6rem;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: .6rem;
+
+        &__cardDay{
+            width: 100%;
+            height: 100%;
+            background-color: rgb(var(--cl-gray-700));
+            border-radius:  .6rem .6rem 0 0;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            &__title{
+                background-color: rgb(var(--cl-gray-800));
+                width: 100%;
+                padding: 0.5rem;
+                border-radius:  .6rem .6rem 0 0;
+
+                display: flex;
+                flex-direction: row;
+                text-align: center;
+                justify-content: space-evenly;
+                align-items: center;
+
+                color: rgb(var(--cl-white));
+                font-family: var(--font-family-default);
+                margin-bottom: 1rem;
+            }
+
+            &__content{
+                width: 100%;
+                height: calc(100% + 10rem);
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+                padding: .8rem;
+
+                
+                overflow-x: hidden;
+                overflow-y: auto;
+
+                &__item{                    
+                    width: 90%;
+                    height: .5rem;
+                    background-color: rgb(var(--cl-white));
+                    padding: 1rem;
+                    border-radius: .5rem;
+                    display: flex;
+                    text-align: center;
+                    align-items: center;
+                    cursor: pointer;
+
+
+                    &__popup{
+                        max-width: 2rem;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.5rem;
+                        padding: 0.5rem;
+
+                        &__itemA{
+                            transition: all .1s linear;
+                            &:hover{
+                                transform: scale(1.05);
+                                font-weight: 700;  
+                                cursor: pointer;                              
+                            }
+                        }
+                    }
+                }
+
+                &::-webkit-scrollbar{
+                    width: .5rem;
+                }
+            
+                &::-webkit-scrollbar-track {
+                    background: rgb(179, 177, 177);
+                    border-radius: 10px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: rgb(136, 136, 136);
+                    border-radius: 10px;
+                }
+                &::-webkit-scrollbar-thumb:hover {
+                    background: rgb(100, 100, 100);
+                    border-radius: 10px;
+                }
+                &::-webkit-scrollbar-thumb:active {
+                    background: rgb(68, 68, 68);
+                    border-radius: 10px;
+                }
+            }
+        }
+
+    }
+}
+
+
+
+.containerModel{
+    width: 100vw;
     height: 100vh;
-    position: fixed;
-    top: 4rem;
-    left: 10rem;
+    background-color: rgba(var(--cl-black), .6);
+
+    z-index: 1100;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    &__model{
+        background-color: rgb(var(--cl-gray-700));
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-48%, -46%);
+
+        width: 50vw;
+        height: 80vh;
+
+        border-radius: 0.5rem;
+        
+        animation-name: modelSliceShow;
+        animation-duration: .2s;
+        animation-timing-function: linear;
+        animation-fill-mode: none;
+
+
+        &__header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5rem 1rem;
+            color: rgb(var(--cl-white));
+
+            &__title{                
+                font-family: var(--font-family-default);
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
+
+        &__section{
+
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            gap: 1rem;
+
+            &__group{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-evenly;
+                align-items: center;
+            }
+
+            &__groupBtn{
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                gap: 1rem;
+                width: 100%;
+                height: auto;
+
+            }
+        }
+    }
+}
+
+.containerModelShow{
+    display: block;
+
+}
+
+@keyframes modelSliceShow{
+    from {
+        transform: translate(-48%, -50%);
+    }
+  
+    to {
+      transform: translate(-48%, -46%);
+    }
 }
