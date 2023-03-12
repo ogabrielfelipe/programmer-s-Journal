@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { Request, withAuth } from '@/lib/withAuth';
 
 type createCard = {
-    date: string;
+    date: Date;
     title: string;
     finished: boolean;
     color: string;
@@ -21,9 +21,9 @@ export default withAuth( async (req: Request, res: NextApiResponse) => {
     const userID = req.auth.user.id;
     if (!userID) return res.status(403).json({ message: "user not found." });
 
-
+    let dateFormatted = new Date(date);
     try{
-        let cardCreated = await _createCard({date, title, finished, color, description, userID});
+        let cardCreated = await _createCard({date: dateFormatted, title, finished, color, description, userID});
         return res.status(200).json({...cardCreated});
     }catch(err){
         console.log(err);
