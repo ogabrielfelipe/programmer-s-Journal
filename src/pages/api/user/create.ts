@@ -31,7 +31,7 @@ export default withAuth( async (req: NextApiRequest, res: NextApiResponse) =>{
 
     let passwordHash = await hash(password, 8);
     try{    
-        const userCreated: User = await _createUserService({
+        const userCreated: User = await _createUser({
             email: email,
             firstName: firstName,
             lastName: lastName,
@@ -45,7 +45,7 @@ export default withAuth( async (req: NextApiRequest, res: NextApiResponse) =>{
 })
 
 
-async function _createUserService({ firstName, lastName, email, password }: CreateUserRequest) {
+async function _createUser({ firstName, lastName, email, password }: CreateUserRequest) {
     const user = await prisma.user.create({
         data: {
             firstName,
