@@ -110,7 +110,10 @@
                     display: flex;
                     text-align: center;
                     align-items: center;
+                    justify-content: space-evenly;
                     cursor: pointer;
+                    font-family: var(--font-family-default);
+                    color: rgb(var(--cl-black));
 
 
                     &__popup{
