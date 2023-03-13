@@ -16,7 +16,6 @@ export default withAuth( async (req: Request, res: NextApiResponse) => {
         return res.status(403).json({ message: "method not found." });
     }
 
-    console.log(req);
     const {date, title, finished, color, description}: createCard = req.body;
     const userID = req.auth.user.id;
     if (!userID) return res.status(403).json({ message: "user not found." });
