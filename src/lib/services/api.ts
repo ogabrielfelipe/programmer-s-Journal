@@ -6,8 +6,15 @@ import { AuthTokenError } from './errors/AuthTokenError';
 export function setupAPIClient( ctx = undefined ){
     let cookies = parseCookies(ctx);
 
-    let host = window.location.origin;
 
+
+    let host;
+    try{ 
+        host = window.location.origin; 
+    }catch(err){
+        host = "http://localhost:3000";
+    }
+    
 
     const api = axios.create({
         baseURL: host,
