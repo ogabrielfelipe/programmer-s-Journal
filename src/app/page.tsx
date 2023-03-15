@@ -353,8 +353,7 @@ export default function Home() {
 
             <TextAreaForm
               title="Descrição"
-              cols={10}
-              rows={16}
+              cols={105}              
               value={descriptionCard}
               disabled={statusModel === typeModelEnum.view ? true : false}
               onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setDescriptionCard(e.target.value)}

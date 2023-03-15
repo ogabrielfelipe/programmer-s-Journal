@@ -5,9 +5,7 @@ import { AuthTokenError } from './errors/AuthTokenError';
 
 export function setupAPIClient( ctx = undefined ){
     let cookies = parseCookies(ctx);
-
-
-
+    
     let host;
     try{ 
         host = window.location.origin; 

@@ -1,9 +1,11 @@
 .containerLoading{
-    z-index: 999;
+    position: absolute;
+    top: 0;
+    z-index: 1150;
     width: 100vw;
     height: 100vh;
     cursor: progress;
-    position: absolute;
+    
     display: flex;
     justify-content: center;
     background-color: rgba(var(--cl-black), 0.3);    
