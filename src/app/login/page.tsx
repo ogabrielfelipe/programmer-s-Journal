@@ -1,9 +1,9 @@
 'use client';
 
 import styles from './page.module.scss'
-import { InputLogin } from '../../components/input'
+import { InputLogin } from '@/components/input'
 import { Eye, EyeClosed, Keyhole, UserCircle } from "phosphor-react";
-import { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import { ButtonPrimaryLogin } from '@/components/button';
 import Image from 'next/image';
 
