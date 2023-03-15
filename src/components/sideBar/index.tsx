@@ -1,7 +1,9 @@
 "use client";
+
+
 import styles from "./styles.module.scss";
 import React, { useState } from "react";
-import { HouseLine, List, Notepad, SignOut, UserCircle, X } from "phosphor-react";
+import { At, Gear, HouseLine, List, Notepad, SignOut, User, UserCircle, X } from "phosphor-react";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { useAuth } from "@/lib/AuthContext";
@@ -9,11 +11,13 @@ import { toast } from "react-toastify";
 import Image from "next/image";
 import logoDaily from "../../../public/diario-do-programador-login.svg"
 import Link from "next/link";
+import { useRouter } from 'next/navigation';
 
 
 function SideBarVertical(){
     const [alterIconMenu, setAlterIconMenu] = useState<boolean>(false);
     const { user, signOut } = useAuth();
+    const router = useRouter();
     const fullName = `${user?.firstName} ${user?.lastName}`
 
     function handleColletMenu(){
@@ -102,16 +106,26 @@ function SideBarVertical(){
                 <ul className={styles.nav__ul}>
                     { user ? (
                         <>
-                            <li className={styles.nav__ul__li}>
+                            <li className={styles.nav__ul__li} onClick={() => router.push("/")}>
                                 <HouseLine size={25} weight="light" />
-                                <a href="#" className={styles.nav__ul__li__a}> Tela Inicial </a>
+                                <a href="/" className={styles.nav__ul__li__a} > Tela Inicial </a>
                             </li>
                             <hr className={styles.nav__ul__separate}/>
                             <li className={styles.nav__ul__li}>
-                                <Notepad size={25} weight="light" />
-                                <a href="#" className={styles.nav__ul__li__a}> Diário </a>
+                                <At size={25} weight="light" />
+                                <a href="#" className={styles.nav__ul__li__a}> Enivar Email </a>
                             </li>
                             <hr className={styles.nav__ul__separate}/>
+                            <li className={styles.nav__ul__li}>                                
+                                <User size={25} weight="light" />
+                                <a href="#" className={styles.nav__ul__li__a}> Usuário </a>
+                            </li>
+                            <hr className={styles.nav__ul__separate}/>
+                            <li className={styles.nav__ul__li}>                                
+                                <Gear size={25} weight="light" />
+                                <a href="#" className={styles.nav__ul__li__a}> Configurações </a>
+                            </li>
+                            <hr className={styles.nav__ul__separate}/>  
                         </>
                     ) : (
                         <></>

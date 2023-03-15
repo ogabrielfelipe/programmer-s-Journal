@@ -11,7 +11,6 @@ import { useRouter, redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { api } from "./services/apiClient";
-import Router from "next/router";
 
 type AuthContextData = {
   user: UserProps | undefined;
@@ -103,15 +102,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   async function singUp({ name, email, password }: SingUpProps) {
     try {
-      /*const response = await api.post('/users', {
-            name, 
-            email,
-            password
-        })
-
-        toast.success('Conta cadastrada com sucesso!')
-        Router.push('/')
-*/
     } catch (err) {
       toast.error("Erro ao Cadastrar!");
       console.log("Erro ao cadastrar ", err)
