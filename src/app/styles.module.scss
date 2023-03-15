@@ -235,10 +235,7 @@
     }
 }
 
-.containerModelShow{
-    display: block;
 
-}
 
 @keyframes modelSliceShow{
     from {
@@ -248,4 +245,90 @@
     to {
       transform: translate(-48%, -46%);
     }
+}
+
+
+
+.containerModelConfirm{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--cl-black), .6);
+
+    z-index: 1100;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    &__model{
+        background-color: rgb(var(--cl-gray-700));
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-48%, -46%);
+
+        width: 25vw;
+        height: 30vh;
+
+        border-radius: 0.5rem;
+        
+        animation-name: modelSliceShow;
+        animation-duration: .2s;
+        animation-timing-function: linear;
+        animation-fill-mode: none;
+
+
+        &__header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5rem 1rem;
+            color: rgb(var(--cl-white));
+
+            &__title{                
+                font-family: var(--font-family-default);
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
+
+        &__section{
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            margin-top: 2rem;
+            gap: 1rem;
+
+            &__text{
+                font-family: var(--font-family-default);
+                font-size: 1.5rem;
+                font-weight: 300;
+                color: rgb(var(--cl-white))
+            }
+            
+            &__item{
+                font-family: var(--font-family-default);
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: rgb(var(--cl-red))
+            }
+
+            &__contentBtn{
+                display: flex;
+                flex-direction: row;
+                gap: 2rem;
+                margin-top: 2rem;
+            }
+        }
+    }
+}
+
+.containerModelShow{
+    display: block;
 }

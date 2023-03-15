@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 import React, { FormEvent, useState } from "react";
 import moment from "moment";
 import 'moment/locale/pt-br'
-import { Check, CheckCircle, PlusCircle, X} from "phosphor-react";
+import { Check, CheckCircle, PlusCircle, X } from "phosphor-react";
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -25,7 +25,7 @@ enum typeModelEnum {
 }
 
 type cards = {
-  id: string,
+  id?: string,
   date: Date,
   title: string,
   finished: boolean,
@@ -59,9 +59,9 @@ export default function Home() {
   const [checkboxCard, setCheckboxCard] = useState<boolean>(false);
   const [colorCard, setColorCard] = useState<string>("#6c6cea");
 
-  const [datesSelections, setDatesSelections] = useState<datesSelectionsType>({days: Array<string>(), dateViewInterval: ""});
+  const [datesSelections, setDatesSelections] = useState<datesSelectionsType>({ days: Array<string>(), dateViewInterval: "" });
   const [statusModel, setStatusModel] = useState<typeModelEnum>();
-  
+
 
   const parseDates = (inp: string) => {
     let year = parseInt(inp.slice(0, 4), 10);
@@ -87,38 +87,85 @@ export default function Home() {
     setStatusModel(typeModel);
   }
 
-  function closeModel(typeModel: typeModelEnum) {
-    let model = document.querySelector(`.${styles.containerModel}`)
-    model?.classList.toggle(styles.containerModelShow)
+  function showModelConfirm(card: cards) {
+    let model = document.querySelector(`.${styles.containerModelConfirm}`)
+    model?.classList.add(styles.containerModelShow);
+    setIdCard(card.id as string);
+    setTitleCard(card.title);
+  }
 
+  function closeModel(typeModel: typeModelEnum) {
+    let model = document.querySelector(`.${styles.containerModel}`);
+    model?.classList.remove(styles.containerModelShow);
+
+    cleanInputs();
+  }
+
+  function closeModelConfirm() {
+    let model = document.querySelector(`.${styles.containerModelConfirm}`);
+    model?.classList.remove(styles.containerModelShow);
     cleanInputs();
   }
 
   async function register(e: FormEvent) {
     e.preventDefault();
 
-    let data = {
+    let data: cards = {
       date: new Date(dateModelCard),
-	    title: titleCard,
-	    finished: checkboxCard,
-	    color: colorCard,
-	    description: descriptionCard
+      title: titleCard,
+      finished: checkboxCard,
+      color: colorCard,
+      description: descriptionCard
     }
 
+    if (statusModel === typeModelEnum.update) {
+      data = { ...data, id: idCard }
+      setLoading(true);
+      await api.put("/api/card/update", data).then(resp => {
+        setLoading(false);
+        toast.success("Registro alterado com sucesso!");
+        populateWithCards(datesSelections!.days, datesSelections!.dateViewInterval);
+      })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+          toast.error("Não foi possível alterar o registro!");
+        })
+      closeModel(typeModelEnum.closeModel)
+      return;
+    }
+
+
     setLoading(true);
-    await api.post("/api/card/create", data)
-    .then(resp => {
+    await api.post("/api/card/create", data).then(resp => {
       setLoading(false);
       toast.success("Registro salvo com sucesso!");
       populateWithCards(datesSelections!.days, datesSelections!.dateViewInterval);
     })
-    .catch(err => {
-      console.log(err);
-      setLoading(false);
-      toast.error("Não foi possível salvar o registro!");
-    })
-    console.log(data);
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+        toast.error("Não foi possível salvar o registro!");
+      })
     closeModel(typeModelEnum.closeModel)
+  }
+
+  async function deleteRegister() {
+      let data = { id: idCard }
+      setLoading(true);
+      await api.delete(`/api/card/delete?id=${idCard}`)
+      .then(resp => {
+        setLoading(false);
+        toast.success("Registro excluído com sucesso!");
+        populateWithCards(datesSelections!.days, datesSelections!.dateViewInterval);
+        console.log(resp.data)
+      })
+        .catch(err => {
+          console.log(err);
+          setLoading(false);
+          toast.error("Não foi possível excluir o registro!");
+        })
+      closeModelConfirm()
   }
 
   async function populateWithCards(days: string[], intervalViewDate: string) {
@@ -132,13 +179,10 @@ export default function Home() {
       dateFinal
     }).then(resp => {
       let cardsForDay: cards[] = resp.data;
-      console.log(cardsForDay);
-
-
       let listDaysWithCards: fieldCards[] = Array<fieldCards>();
       days.forEach(day => {
-        let cardsFil = cardsForDay.filter(card => { if(Number(new Date(card.date)) === Number(new Date(day))) return card; })
-        listDaysWithCards.push({day: day, cards: cardsFil})
+        let cardsFil = cardsForDay.filter(card => { if (Number(new Date(card.date)) === Number(new Date(day))) return card; })
+        listDaysWithCards.push({ day: day, cards: cardsFil })
       })
 
       let daysWithCards = {
@@ -162,8 +206,7 @@ export default function Home() {
 
   }
 
-  function viewCard(cardID: string) {
-    console.log(cardID);
+  function viewCard(cardID: string, typeOpen: typeModelEnum.view | typeModelEnum.update) {
     let cardFil: cards = {
       id: "",
       date: new Date(),
@@ -177,13 +220,21 @@ export default function Home() {
         if (card.id === cardID) cardFil = card;
       })
     })
-    console.log(cardFil);
-    setIdCard(cardFil.id);
+
+    setIdCard(cardFil.id as string);
     setTitleCard(cardFil.title)
     setCheckboxCard(cardFil.finished)
     setColorCard(cardFil.color)
     setDescriptionCard(cardFil.description)
-    showModel(typeModelEnum.view, moment.utc(cardFil.date).format("YYYY-MM-DD"))
+    showModel(typeOpen === typeModelEnum.view ? typeModelEnum.view : typeModelEnum.update, moment.utc(cardFil.date).format("YYYY-MM-DD"))
+  }
+
+  function getContrastYIQ(hexColor: string) {
+    var r = parseInt(hexColor.substring(1, 3), 16);
+    var g = parseInt(hexColor.substring(3, 5), 16);
+    var b = parseInt(hexColor.substring(5, 7), 16);
+    var yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return (yiq >= 128) ? '#000000' : '#FFFFFF';
   }
 
   return (
@@ -224,9 +275,9 @@ export default function Home() {
                         <>
                           <Popup
                             trigger={
-                              <span id={card.id} className={styles.containerCalendar__contentDay__cardDay__content__item} style={{backgroundColor: card.finished ? "#00A300" : card.color }}>
-                                {card.title.length > 20 ? card.title.slice(0, 13)+"..." : card.title} {card.finished ? (<Check size={25} />) : (<> </>)}
-                                </span>
+                              <span id={card.id} className={styles.containerCalendar__contentDay__cardDay__content__item} style={{ backgroundColor: card.finished ? "#00A300" : card.color, color: getContrastYIQ(card.color) }}>
+                                {card.title.length > 20 ? card.title.slice(0, 13) + "..." : card.title} {card.finished ? (<Check size={25} />) : (<> </>)}
+                              </span>
                             }
                             position="right center"
                             contentStyle={{
@@ -239,9 +290,9 @@ export default function Home() {
                             key={card.id}
                           >
                             <div className={styles.containerCalendar__contentDay__cardDay__content__item__popup}>
-                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA} onClick={() => viewCard(card.id)}>Visualizar</a>
-                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA}>Alterar</a>
-                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA}>Excluir</a>
+                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA} onClick={() => viewCard(card.id as string, typeModelEnum.view)}>Visualizar</a>
+                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA} onClick={() => viewCard(card.id as string, typeModelEnum.update)}>Alterar</a>
+                              <a className={styles.containerCalendar__contentDay__cardDay__content__item__popup__itemA} onClick={() => showModelConfirm(card)}>Excluir</a>
                             </div>
                           </Popup>
                         </>
@@ -269,13 +320,15 @@ export default function Home() {
               type={"date"}
               title="Data"
               value={String(dateModelCard)}
-              onChange={(e) => setDateModelCard(e.target.value)}
+              disabled={statusModel === typeModelEnum.view ? true : false}
+              onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setDateModelCard(e.target.value)}
             />
             <InputLogin
               type={"text"}
               title="Título"
               value={titleCard}
-              onChange={(e) => setTitleCard(e.target.value)}
+              disabled={statusModel === typeModelEnum.view ? true : false}
+              onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setTitleCard(e.target.value)}
             />
 
             <div className={styles.containerModel__model__section__group}>
@@ -284,7 +337,8 @@ export default function Home() {
                 title="Finalizado"
                 style={{ maxWidth: "1.5rem", "padding": "0.5rem" }}
                 checked={checkboxCard}
-                onChange={(e) => setCheckboxCard(!checkboxCard)}
+                disabled={statusModel === typeModelEnum.view ? true : false}
+                onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setCheckboxCard(!checkboxCard)}
               />
 
               <InputLogin
@@ -292,7 +346,8 @@ export default function Home() {
                 title="Cor de Fundo"
                 style={{ maxWidth: "5rem", "padding": "0.5rem" }}
                 value={colorCard}
-                onChange={(e) => setColorCard(e.target.value)}
+                disabled={statusModel === typeModelEnum.view ? true : false}
+                onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setColorCard(e.target.value)}
               />
             </div>
 
@@ -301,7 +356,8 @@ export default function Home() {
               cols={10}
               rows={16}
               value={descriptionCard}
-              onChange={(e) => setDescriptionCard(e.target.value)}
+              disabled={statusModel === typeModelEnum.view ? true : false}
+              onChange={statusModel === typeModelEnum.view ? () => { } : (e) => setDescriptionCard(e.target.value)}
             />
 
             <div className={styles.containerModel__model__section__groupBtn}>
@@ -312,14 +368,37 @@ export default function Home() {
                 <ButtonPrimaryForm type={"submit"}>
                   Confirmar
                 </ButtonPrimaryForm>
-              ): (
+              ) : (
                 <>
                 </>
               )}
-              
+
             </div>
 
           </form>
+        </div>
+      </div>
+
+
+      <div className={styles.containerModelConfirm}>
+        <div className={styles.containerModelConfirm__model}>
+          <div className={styles.containerModelConfirm__model__header}>
+            <span className={styles.containerModelConfirm__model__header__title}>Confirmação de Exclusão</span>
+            <X size={32} style={{ cursor: "pointer" }} weight={"bold"} onClick={() => closeModelConfirm()} />
+          </div>
+          <div className={styles.containerModelConfirm__model__section}>
+            <strong className={styles.containerModelConfirm__model__section__text}>Deseja realmente excluir o card:</strong>
+            <h2 className={styles.containerModelConfirm__model__section__item}>{titleCard.length > 20 ? titleCard.slice(0, 13) + "..." : titleCard}</h2>
+
+            <div className={styles.containerModelConfirm__model__section__contentBtn}>
+              <ButtonSecondaryForm onClick={closeModelConfirm} type={"button"}>
+                Cancelar
+              </ButtonSecondaryForm>
+              <ButtonPrimaryForm type={"button"} onClick={deleteRegister}>
+                Confirmar
+              </ButtonPrimaryForm>
+            </div>
+          </div>
         </div>
       </div>
 

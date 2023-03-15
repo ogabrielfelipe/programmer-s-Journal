@@ -11,6 +11,7 @@
   --cl-gray-800: 51,51,51;
   --cl-gray-700: 66,66,66;
   --cl-green: 56,239,125;
+  --cl-red: 232,32,32;
 }
 * {
   box-sizing: border-box;
