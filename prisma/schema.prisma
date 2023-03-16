@@ -18,7 +18,7 @@ model User {
   email    String @unique
   password String
 
-  role     Role   @default(USER)
+  role Role @default(USER)
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -47,4 +47,22 @@ model Card {
   user    User   @relation(fields: [user_id], references: [id])
 
   @@map("card")
+}
+
+model SettingMail {
+  id              String       @id @default(cuid())
+  typeMail        RoleMailType @default(zoho) @unique
+  host            String
+  port            Int
+  secure          Boolean
+  mailOptionsFrom String
+  username        String
+  password        String
+
+
+  @@map("settingMail")
+}
+
+enum RoleMailType {
+  zoho
 }
