@@ -59,6 +59,6 @@ main()
     await prisma.$disconnect()
     process.exitCode = 1;
 })
-
 */
+
 export default prisma;

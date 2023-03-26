@@ -226,7 +226,7 @@
             &__groupBtn{
                 display: flex;
                 flex-direction: row;
-                justify-content: end;
+                justify-content: flex-end;
                 gap: 1rem;
                 width: 100%;
                 height: auto;
@@ -329,6 +329,206 @@
         }
     }
 }
+
+
+.ContainerModelMail{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--cl-black), .6);
+
+    z-index: 1100;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    &__model{
+        background-color: rgb(var(--cl-gray-700));
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-48%, -46%);
+
+        width: 50vw;
+        height: 70vh;
+
+        border-radius: 0.5rem;
+        
+        animation-name: modelSliceShow;
+        animation-duration: .2s;
+        animation-timing-function: linear;
+        animation-fill-mode: none;
+
+        &__header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5rem 1rem;
+            color: rgb(var(--cl-white));
+
+            &__title{                
+                font-family: var(--font-family-default);
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
+
+        &__section{
+            width: 100%;
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            gap: .5rem;
+            padding: 1rem;
+            
+            
+            &__contentBtn{
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                gap: 2rem;
+                margin-top: 1rem;
+            }
+
+        }
+
+        
+    }
+}
+
+
+.containerModelCards{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(var(--cl-black), .6);
+
+    z-index: 1101;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    &__model{
+        background-color: rgb(var(--cl-gray-700));
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-48%, -46%);
+
+        width: 48vw;
+        height: 68vh;
+
+        border-radius: 0.5rem;
+        
+        animation-name: modelSliceShow;
+        animation-duration: .2s;
+        animation-timing-function: linear;
+        animation-fill-mode: none;
+
+        &__header{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: .5rem 1rem;
+            color: rgb(var(--cl-white));
+
+            &__title{                
+                font-family: var(--font-family-default);
+                font-size: 1.5rem;
+                font-weight: 700;
+            }
+        }
+
+        &__section{
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+
+
+            &__contentInput{
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-top: .5rem;
+            }
+
+            &__contentBtn{
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+                gap: 2rem;
+                margin-top: 1rem;
+            }
+
+            &__contentList{
+                display: grid;
+                
+
+                padding: .8rem;
+                width: 100%;
+                height: 30rem;
+
+                overflow-x: hidden;
+                overflow-y: auto;
+
+                &__item{
+                    margin-top: 1rem;
+                    width: 95%;
+                    height: 2.5rem;
+                    border-radius: .5rem;
+                    box-shadow: 0 0 10px rgba(var(--cl-black), 0.3);
+
+                    display: flex;
+                    align-items: center;
+                    padding: 0 .5rem;
+                    gap: 1rem;
+
+                    color: rgb(var(--cl-white));
+                    cursor: pointer;
+
+                    input[type=checkbox]{
+                        margin: .5rem;
+                        cursor: pointer;
+                        transform:scale(1.5, 1.5);
+                    }
+                }
+
+                
+                &::-webkit-scrollbar{
+                    width: .5rem;
+                }
+            
+                &::-webkit-scrollbar-track {
+                    background: rgb(179, 177, 177);
+                    border-radius: 10px;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background: rgb(136, 136, 136);
+                    border-radius: 10px;
+                }
+                &::-webkit-scrollbar-thumb:hover {
+                    background: rgb(100, 100, 100);
+                    border-radius: 10px;
+                }
+                &::-webkit-scrollbar-thumb:active {
+                    background: rgb(68, 68, 68);
+                    border-radius: 10px;
+                }
+
+            }
+        }
+    }
+}
+
+
 
 .containerModelShow{
     display: block;

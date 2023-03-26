@@ -7,7 +7,6 @@ import prisma from "../prisma";
 
 export const TransporterMail = async () => {
     let settingsMail = await findSettingsMail();
-    
     if (!settingsMail) return false;
     
     return nodemailer.createTransport({

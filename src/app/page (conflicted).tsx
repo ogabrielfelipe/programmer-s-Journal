@@ -43,7 +43,7 @@ type dateItems = {
   dateViewInterval?: string,
 }
 
-interface cards1 extends cards {
+interface cards1 extends cards  {
   checked: boolean
 }
 
@@ -145,19 +145,15 @@ export default function Home() {
   function closeModelMail() {
     let model = document.querySelector(`.${styles.ContainerModelMail}`);
     model?.classList.remove(styles.containerModelShow);
-
-    setSendMailBody("");
-    setSendMailSub("");
-    setSendMailTo("");    
   }
 
   function closeModelViewCards() {
     let model = document.querySelector(`.${styles.containerModelCards}`);
     model?.classList.remove(styles.containerModelShow);
-
+    
     setDateIntervalByMail({ fieldCards: Array<cards1>() });
     setListCard(Array<cards1>());
-    (document.getElementById('weekIntervalModelViewCards') as HTMLInputElement).value = "";
+    (document.getElementById('weekIntervalModelViewCards') as HTMLInputElement).value ="";
   }
 
   async function register(e: FormEvent) {
@@ -293,14 +289,21 @@ export default function Home() {
       html: sendMailBody,
     }
 
+    console.log(data);
+
     setLoading(true)
 
-    api.post("/api/card/sendMail", data).then(resp => {   
-      closeModelMail();   
-      toast.success("Email enviado com sucesso!");      
+    api.post("/api/card/sendMail", {
+      data: {
+        to: sendMailTo,
+        subject: sendMailSub,
+        text: `${sendMailSub} - ${sendMailBody.slice(0, 25)}`,
+        html: sendMailBody,
+      }
+    }).then(resp => {
+      console.log(resp);
       setLoading(false);
     }).catch(err => {
-      toast.error("Email não enviado, consultar log."); 
       console.log(err);
       setLoading(false);
     });
@@ -336,80 +339,51 @@ export default function Home() {
   }
 
 
-  function handleSelectCards(card: cards1) {
-    if (card.checked) {
+  function handleSelectCards(card: cards1){    
+    if (card.checked){
       setListCard(listCard.filter(cardsFil => {
         if (cardsFil.id !== card.id) return cardsFil;
       }));
-    } else {
-      let cardSelects: cards1[];
+    }else{  
+      let cardSelects: cards1[];    
       cardSelects = listCard;
       cardSelects.push(card);
       setListCard(cardSelects);
     }
 
-    let dateIntervalByMailAtt: cards1[] = Array<cards1>();
-    dateIntervalByMail?.fieldCards.forEach(cardField => {
-      if (cardField.id === card.id) {
+    let dateIntervalByMailAtt: cards1[]= Array<cards1>();
+    dateIntervalByMail?.fieldCards.forEach(cardField =>{
+      if (cardField.id === card.id){
         cardField.checked = !cardField.checked;
       }
       dateIntervalByMailAtt.push(cardField);
     })
-
+    
     setDateIntervalByMail({
       fieldCards: dateIntervalByMailAtt
     });
   }
 
 
-  function handleFillBodyMail() {
-    let listCardsBody: string = createsBodyMail(listCard);
+  function handleFillBodyMail(){    
+    let listCardsBody: string= createsBodyMail(listCard);
     let mailBodyAux = sendMailBody;
     mailBodyAux += listCardsBody;
     setSendMailBody(mailBodyAux);
     closeModelViewCards();
   }
 
-  function createsBodyMail(cardsList: cards1[]) {
-    let htmlMail = `<table align="center" border="1" cellpadding="0" cellspacing="0" width="800">
-        <tr align="center">
-          <td bgcolor="#FFFFFF">
-            Data
-          </td>
-          <td bgcolor="#FFFFFF">
-            Título
-          </td>
-          <td bgcolor="#FFFFFF">
-            Status
-          </td>
-          <td bgcolor="#FFFFFF">
-            Descrição
-          </td>
-        </tr>
-    `;
-
-    cardsList.forEach((item) => {
-      htmlMail += `
-        <tr>
-          <td align="center" bgcolor="#FFFFFF">
-            ${moment(item.date).format("DD/MM/YYYY")}
-          </td>
-          <td bgcolor="#FFFFFF">
-            ${item.title}
-          </td>
-          <td align="center" bgcolor="#FFFFFF">
-            ${item.finished ? 'Finalizado' : 'Em Aberto'}
-          </td>
-          <td bgcolor="#FFFFFF">
-            ${item.description}
-          </td>
-        </tr>
-      `
+  function createsBodyMail(cardsList: cards1[]){
+    let listCardsBody: string[] = Array<string>();
+    cardsList.forEach(cardItem => {
+      listCardsBody.push( ` 
+        Data: ${ moment(cardItem.date).format("DD/MM/YYYY")}
+        Título: ${cardItem.title}
+        Estado: ${cardItem.finished}
+        Description: ${cardItem.description}
+      `);
     })
-
-    htmlMail += `</table>`;
-
-    return htmlMail;
+    return listCardsBody.toString().replace(",", "");
   }
 
 
@@ -626,7 +600,7 @@ export default function Home() {
             />
 
             <div className={styles.ContainerModelMail__model__section__contentBtn}>
-              <ButtonSecondaryForm type={"button"} onClick={closeModelMail}>
+              <ButtonSecondaryForm type={"button"}>
                 Cancelar
               </ButtonSecondaryForm>
               <ButtonPrimaryForm type={"submit"}>
@@ -658,15 +632,15 @@ export default function Home() {
               {dateIntervalByMail?.fieldCards.map((card) => {
                 return (
                   <div className={styles.containerModelCards__model__section__contentList__item} key={card.id} onClick={() => handleSelectCards(card)}>
-                    {card.checked ? (<CheckSquare size={32} />) : (<Square size={32} />)}
+                    {card.checked ? ( <CheckSquare size={32} />  ) : ( <Square size={32} /> )}
                     <span> {moment(card.date).format("DD/MM/YYYY")} </span>
                     <span> {card.title} </span>
                   </div>
                 )
-
+                
               })}
             </div>
-
+          
             <div className={styles.containerModelCards__model__section__contentBtn}>
               <ButtonPrimaryForm type={"button"} onClick={handleFillBodyMail}>
                 Confirmar

@@ -7,6 +7,8 @@ type User = {
     id: string;
     email: string;
     password: string;
+    firstName: string;
+    lastName: string;
 }
 
 type UserRes = {
@@ -37,7 +39,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({message: 'Password is incorrect.'});
     }
 
-    const token = _generateToken(user.id, user.email)
+    const token = _generateToken(user.id, user.email, `${user.firstName} ${user.lastName}`)
     return res.status(200).json({id: user.id, email: user.email, token: token})
 
 }
@@ -51,8 +53,9 @@ async function _findUserByEmail(email: string) {
             select: {
                 id: true,
                 email: true,
-                password: true
-    
+                password: true,
+                firstName: true,
+                lastName: true    
             }
         })
     }catch(err){
@@ -65,11 +68,12 @@ async function _verifyPassword(passwordReq: string, password: string) {
     return await compare(passwordReq, password)
 }
 
-function _generateToken(id: string, email: string){
+function _generateToken(id: string, email: string, name: string){
     return sign(
         {
             id: id,
-            email: email
+            email: email,
+            name: name
         },
         process.env.SECRET_KEY!,
         {
